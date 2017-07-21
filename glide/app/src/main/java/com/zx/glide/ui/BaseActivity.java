@@ -3,17 +3,12 @@ package com.zx.glide.ui;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.support.annotation.LayoutRes;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.zx.glide.R;
+import com.apkfuns.logutils.LogUtils;
 import com.zx.glide.retrofit.ApiClient;
 import com.zx.glide.retrofit.ApiStores;
 
@@ -33,7 +28,7 @@ import rx.subscriptions.CompositeSubscription;
  * Created by zx on 17-7-12.
  */
 
-public class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends Activity {
     public Activity mActivity;
     private CompositeSubscription mCompositeSubscription;
     private List<Call> calls;
@@ -109,44 +104,11 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void onUnsubscribe() {
-        Log.d("TAG","onUnsubscribe");
+        LogUtils.d("onUnsubscribe");
         //取消注册，以避免内存泄露
         if (mCompositeSubscription != null && mCompositeSubscription.hasSubscriptions())
             mCompositeSubscription.unsubscribe();
     }
-
-    public Toolbar initToolBar(String title) {
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if (toolbar != null) {
-            setSupportActionBar(toolbar);
-            TextView toolbaTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
-            toolbaTitle.setText(title);
-        }
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setDisplayShowTitleEnabled(false);
-        }
-        return toolbar;
-    }
-
-    public Toolbar initToolBarAsHome(String title) {
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if (toolbar != null) {
-            setSupportActionBar(toolbar);
-            TextView toolbaTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
-            toolbaTitle.setText(title);
-        }
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(false);
-            actionBar.setDisplayShowTitleEnabled(false);
-        }
-        return toolbar;
-    }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
