@@ -1,18 +1,19 @@
 package com.zx.glide;
 
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.Priority;
+
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.zx.glide.mvp.main.MainModel;
 import com.zx.glide.mvp.main.MainPresenter;
 import com.zx.glide.mvp.main.MainView;
@@ -66,23 +67,13 @@ public class HomeActivity extends MvpActivity<MainPresenter> implements MainView
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.button0:
-                Glide.with(mActivity).load("http://retaildl.wincrm.net/files/winretailsaler/170214/6cf668c759e447d8ba05228f4a88e40f_750x388.png").asBitmap().listener(new RequestListener<String, Bitmap>() {
-                    @Override
-                    public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                        Log.i("TAG","zzzzzzzzzzzzzz");
-                        Handler handler=new MyHandler();
-                        Message msg=new Message();
-                        msg.what=1;
-                        msg.obj=resource;
-                        handler.handleMessage(msg);
-                        return false;
-                    }
-                });
+                Glide.with(mActivity).asBitmap().load("https://www.baidu.com/img/bdlogo.png")
+                        .into(new SimpleTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+                                mImageView.setImageBitmap(resource);
+                            }
+                        });
                 break;
             case R.id.button1:
                 break;
@@ -100,19 +91,5 @@ public class HomeActivity extends MvpActivity<MainPresenter> implements MainView
                 + getResources().getString(R.string.ws) + weatherinfo.getWS()
                 + getResources().getString(R.string.time) + weatherinfo.getTime();
         text.setText(showData);
-    }
-
-    public class MyHandler extends android.os.Handler {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case 1:
-                    Bitmap bitmap = (Bitmap) msg.obj;
-                    mImageView.setImageBitmap(bitmap);
-                    break;
-                default:
-                    break;
-            }
-        }
     }
 }
