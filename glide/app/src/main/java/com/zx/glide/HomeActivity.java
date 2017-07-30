@@ -1,23 +1,23 @@
 package com.zx.glide;
 
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Message;
+import android.os.Environment;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.Priority;
-
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.zx.glide.mvp.main.MainModel;
 import com.zx.glide.mvp.main.MainPresenter;
 import com.zx.glide.mvp.main.MainView;
 import com.zx.glide.mvp.other.MvpActivity;
+
+import java.io.File;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
